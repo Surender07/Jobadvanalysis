@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Seekers Job Portal</title>
+    <title>JobNest Portal</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/index.css">
+    <link rel="stylesheet" href="../static/index.css"> <!-- Link to the external CSS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -12,8 +12,8 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Seekers</a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">JobNest</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,7 +25,7 @@
         </ul>
         <form class="form-inline">
             <a href="{{url_for('manager')}}">
-                <button class="btn btn-outline-success" type="button">Switch Employer</button>
+                <button class="btn btn-outline-light" type="button">Employer Mode</button>
             </a>
         </form>
     </div>
@@ -34,7 +34,7 @@
 <!-- Job Category Selection -->
 <section class="container mt-4">
     <form method="POST" id="section-select" class="d-flex align-items-center">
-        <h4 class="mr-3 text-dark">Job Category:</h4>
+        <h4 class="mr-3">Job Category:</h4>
         <select name="category" class="form-control mr-3">
             <option value="Accounting_Finance">Accounting Finance</option>
             <option value="Engineering">Engineering</option>
@@ -48,10 +48,17 @@
 <!-- Job Listings -->
 <section class="container mt-4">
     {% for ad in ads %}
-    <!-- Job Listing Button -->
-    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#jobModal-{{ad.id}}">
-        {{ad.title}}
-    </button>
+    <!-- Job Listing Card -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ad.title}}</h5>
+            <p class="card-text">{{ad.description}}</p>
+            <p class="card-text"><strong>Salary:</strong> {{ad.salary}} Euro</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobModal-{{ad.id}}">
+                View Details
+            </button>
+        </div>
+    </div>
 
     <!-- Job Details Modal -->
     <div class="modal fade" id="jobModal-{{ad.id}}" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel-{{ad.id}}" aria-hidden="true">
@@ -64,8 +71,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="card-text">Salary: {{ad.salary}} Euro</p>
-                    <p class="card-text">Category: {{ad.job_category}}</p>
+                    <p class="card-text"><strong>Salary:</strong> {{ad.salary}} Euro</p>
+                    <p class="card-text"><strong>Category:</strong> {{ad.job_category}}</p>
                     <h6>Description:</h6>
                     <p>{{ad.description}}</p>
                 </div>
