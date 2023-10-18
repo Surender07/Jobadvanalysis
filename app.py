@@ -8,6 +8,52 @@ import pickle
 import datetime
 import numpy as np
 from gensim.models.fasttext import FastText
+import nltk
+nltk.download('wordnet')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
+import string
+
+
+def preprocess_text(text, method='lemmatize'):
+    """
+    Perform basic NLP preprocessing on a given text.
+    
+    Args:
+    - text (str): Input text string to be preprocessed.
+    - method (str): Either 'lemmatize' or 'stem'. Default is 'lemmatize'.
+    
+    Returns:
+    - list: List of preprocessed tokens.
+    """
+    
+    # Convert to lowercase
+    text = text.lower()
+    
+    # Tokenize
+    tokens = word_tokenize(text)
+    
+    # Remove punctuation and numbers
+    tokens = [word for word in tokens if word.isalpha()]
+    
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [word for word in tokens if word not in stop_words]
+    
+    # Stemming or Lemmatization
+    if method == 'stem':
+        stemmer = PorterStemmer()
+        tokens = [stemmer.stem(word) for word in tokens]
+    elif method == 'lemmatize':
+        lemmatizer = WordNetLemmatizer()
+        tokens = [lemmatizer.lemmatize(word) for word in tokens]
+    else:
+        raise ValueError("Method argument should be either 'stem' or 'lemmatize'")
+    
+    return tokens
+
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -75,10 +121,9 @@ def post_data():
         salary_post = request.form.get('salary', '')
         
         # Load logistic regression pre-trained model
-        lr_loaded = pickle.load(open('model.sav', 'rb'))
         descFT = FastText.load("models/desc_FT.model")
         descFT_wv= descFT.wv
-        tokenized_data = job_desc.split(' ')
+        tokenized_data = preprocess_text(job_desc)
         bbcFT_dvs = docvecs(descFT_wv, [tokenized_data])
 
         # Load the LR model
@@ -90,16 +135,14 @@ def post_data():
         y_pred = model.predict(bbcFT_dvs)
         y_pred = y_pred[0]
 
-
-        # Load the fitted TfidfVectorizer object
-        tf1_new = pickle.load(open("models/descFT_LR.pkl", 'rb'))
+        print(y_pred)
 
         # Convert sentence to list to be used by the model
         job_desc = [job_desc]
     
         
         if radio_post == "true":
-            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=modify_preds(y_pred))
+            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=(y_pred))
             db.session.add(ad_object)
             db.session.commit()
             feedback = "success"

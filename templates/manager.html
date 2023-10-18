@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>index</title>
 
-<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index.css')}}">
+<link rel="stylesheet" type="text/css" href="../static/employer.css">
 
 
 <!-- Boostrap 4 CSS -->
@@ -20,127 +20,28 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #1E1E1E;  /* Deep charcoal background */
-    color: #E1E1E1;  /* Soft white text */
-    margin: 0;
-    padding: 0;
-}
-
-.navbar {
-    background-color: #2E2E2E;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar-light .navbar-brand,
-.navbar-light .navbar-nav .nav-link {
-    color: #E1E1E1;
-}
-
-.navbar-light .navbar-nav .nav-link:hover {
-    color: #B0B0B0;
-}
-
-.card {
-    background-color: #2E2E2E;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.modal-content {
-    background-color: #2E2E2E;
-    color: #E1E1E1;
-}
-
-.modal-header .close span {
-    color: #E1E1E1;
-}
-
-button.btn {
-    background-color: #317F7D;
-    color: #E1E1E1;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-button.btn:hover {
-    background-color: #419A9C;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-a {
-    color: #668DAA;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-a:hover {
-    color: #507B99;  /* Slightly darker shade for hover state */
-}
-
-.container {
-    max-width: 1200px;
-    padding: 20px;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -15px;  /* Negative margin for proper alignment */
-}
-
-.col {
-    flex: 1;
-    padding: 15px;
-}
-
-/* Update for the Switch Seeker button */
-button.btn-outline-light {
-    color: #E1E1E1;  /* Soft white text */
-    border-color: #317F7D;  /* Muted teal border */
-    transition: background-color 0.2s, color 0.2s;
-}
-
-button.btn-outline-light:hover
-
-</style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light">
+<body style="background-color: #1E1E1E;">
+  <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">JobNest</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>
     </button>
+  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('manager')}}">Add a Job</a>
-            </li>
-        </ul>
-        <form class="form-inline">
-            <a href="{{url_for('home')}}">
-                <button class="btn btn-outline-light" type="button">Switch Seeker</button>
-            </a>
-        </form>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('manager')}}">Add a Job <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+          <a href="{{url_for('home')}}"><button class="btn btn-outline-light my-2 my-sm-0" type="button">Switch Seeker</button></a>      
+      </form>
     </div>
-</nav>
+  </nav>
 
 
-<div style="margin-top: 50px; padding-bottom: 20px;" class="container text-light bg-dark" >
+  <div style="margin-top: 50px; padding-bottom: 20px;" class="container text-light bg-secondary rounded" >
   <form id="post_form">
     <div class="d-flex justify-content-md-center">
       <div class="row" >
@@ -165,80 +66,78 @@ button.btn-outline-light:hover
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 style="color: black;" class="modal-title" id="exampleModalLabel">AI Suggestion</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal-content bg-secondary">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">Select Category</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div style="color: black;" class="modal-body">
+      <div class="modal-body text-light">
         <div id="category">
-          <div class="row" >
-            <div class="12">         
-                   <input id="suggested_true" type="radio"  name="suggested_choice" value="true" hidden>
-                <input  id="suggested_false" type="radio"  name="suggested_choice" value="false" hidden>
-              </div>
+          <div class="row">
+            <div class="col-12">
+                   <input id="suggested_true" type="radio" name="suggested_choice" value="true" hidden>
+                <input id="suggested_false" type="radio" name="suggested_choice" value="false" hidden>
+            </div>
     
-            <div  style="margin-bottom: 15px;" class="col-4" >
-    <h5>AI category suggestion : </h5>
-    </div>
-    <div class="col-5" >
-    <h5 id="sugg-category"></h5>
-    </div>
+            <div class="col-6 mb-3">
+                <h6>Recommend Category:</h6>
+                <span id="sugg-category"></span>
+            </div>
+            <div class="col-6 mb-3">
+                <button id="yes_button" type="submit" class="btn btn-outline-light">Accept</button>
+            </div>
+    
+            <div class="col-12">
+                <h6>Custom Selection:</h6>
+            </div>
 
-    
-    
-    <div class="col-2">
-    
-      <button id="yes_button" type="submit" class="btn btn-primary">Submit</button>
-    </div>
-    
-
-    <div class="col-5" >
-    <h5>Custom Selection : </h5>
-    </div>
-    <div id="category-select" class="col-4" >
-      <div class="form-check">
-        <input class="form-check-input" type="radio" value="Accounting_Finance" name="custom_category" id="flexRadioDefault1" checked>
-        <label class="form-check-label" for="flexRadioDefault1">
-          Accounting Finance
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="custom_category" value="Engineering" id="flexRadioDefault2" >
-        <label class="form-check-label" for="flexRadioDefault2">
-          Engineering
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="custom_category" value="Healthcare_Nursing" id="flexRadioDefault2" >
-        <label class="form-check-label" for="flexRadioDefault2">
-          Healthcare Nursing
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="custom_category" value="Sales" id="flexRadioDefault2" >
-        <label class="form-check-label" for="flexRadioDefault2">
-          Sales
-        </label>
-      </div>
-        </div>
-    
-        <div style="margin-top: 20px;" class="col-2">
-    
-          <button id="no_button" type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        
-        </div>
+            <div id="category-select" class="col-12">
+              <div class="col-5" >
+                <h5>Custom Selection : </h5>
+                </div>
+                <div id="category-select" class="col-4" >
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="Accounting_Finance" name="custom_category" id="flexRadioDefault1" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Accounting Finance
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="custom_category" value="Engineering" id="flexRadioDefault2" >
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Engineering
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="custom_category" value="Healthcare_Nursing" id="flexRadioDefault2" >
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Healthcare Nursing
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="custom_category" value="Sales" id="flexRadioDefault2" >
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Sales
+                    </label>
+                  </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mt-3">
+                <button id="no_button" type="submit" class="btn btn-outline-light">Submit Custom</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+
 
 
 
