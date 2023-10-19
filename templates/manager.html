@@ -64,8 +64,9 @@
 
 
 <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content bg-secondary">
       <div class="modal-header border-bottom-0">
         <h5 class="modal-title" id="exampleModalLabel">Select Category</h5>
@@ -81,52 +82,49 @@
                 <input id="suggested_false" type="radio" name="suggested_choice" value="false" hidden>
             </div>
     
-            <div class="col-6 mb-3">
-                <h6>Recommend Category:</h6>
-                <span id="sugg-category"></span>
+            <div class="col-6 mb-4">
+                <h6 class="mb-2">Recommend Category:</h6>
+                <span id="sugg-category" class="d-block bg-dark p-2 rounded"></span>
             </div>
-            <div class="col-6 mb-3">
-                <button id="yes_button" type="submit" class="btn btn-outline-light">Accept</button>
+            <div class="col-6 mb-4 d-flex align-items-end">
+                <button id="yes_button" type="submit" class="btn btn-outline-light w-100">Accept</button>
             </div>
     
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <h6>Custom Selection:</h6>
             </div>
 
             <div id="category-select" class="col-12">
-              <div class="col-5" >
-                <h5>Custom Selection : </h5>
+              <div id="category-select" class="col-4" >
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" value="Accounting_Finance" name="custom_category" id="flexRadioDefault1" checked>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Accounting Finance
+                  </label>
                 </div>
-                <div id="category-select" class="col-4" >
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" value="Accounting_Finance" name="custom_category" id="flexRadioDefault1" checked>
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Accounting Finance
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="custom_category" value="Engineering" id="flexRadioDefault2" >
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Engineering
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="custom_category" value="Healthcare_Nursing" id="flexRadioDefault2" >
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Healthcare Nursing
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="custom_category" value="Sales" id="flexRadioDefault2" >
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Sales
-                    </label>
-                  </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="custom_category" value="Engineering" id="flexRadioDefault2" >
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Engineering
+                  </label>
                 </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="custom_category" value="Healthcare_Nursing" id="flexRadioDefault2" >
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Healthcare Nursing
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="custom_category" value="Sales" id="flexRadioDefault2" >
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Sales
+                  </label>
+                </div>
+              </div>
             </div>
             
             <div class="col-12 mt-3">
-                <button id="no_button" type="submit" class="btn btn-outline-light">Submit Custom</button>
+                <button id="no_button" type="submit" class="btn btn-outline-light w-100">Submit Custom</button>
             </div>
           </div>
         </div>
@@ -137,6 +135,7 @@
     </div>
   </div>
 </div>
+
 
 
 
