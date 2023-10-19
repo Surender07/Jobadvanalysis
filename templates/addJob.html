@@ -31,11 +31,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('manager')}}">Add a Job <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="addJob.html">Add a Job <span class="sr-only">(current)</span></a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-          <a href="{{url_for('home')}}"><button class="btn btn-outline-light my-2 my-sm-0" type="button">Switch Seeker</button></a>      
+          <a href="./homepage.html"><button class="btn btn-outline-light my-2 my-sm-0" type="button">Switch Seeker</button></a>      
       </form>
     </div>
   </nav>
@@ -63,7 +63,6 @@
     </div>
 
 
-<!-- Modal -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -136,11 +135,28 @@
   </div>
 </div>
 
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-secondary">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="successModalLabel">Success</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-light">
+        Job added Successfully
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-
-      <div id="usual_submit" class="form-group submit-button">
+  <div id="usual_submit" class="form-group submit-button">
     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
   </div>
 
@@ -153,65 +169,54 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-
 <script>
   $(document).ready(function() {
-  
-  // hide category section and make it appears when post
-  document.getElementById("category").style.display = "none";
-  
-  
-  $(document).on('submit','#post_form',function (e) {
-    $('#yes_button, #no_button').click(function() {
-      let clickedButton = $(this).attr('id');
-      if (clickedButton == "yes_button") {
-        $("#suggested_true").prop("checked", true);
-        console.log(clickedButton);
-      }
-      else if(clickedButton =="no_button" ){
-        $("#suggested_false").prop("checked", true);
-  
-        console.log(clickedButton);
-      }
-     
-  });
-  
-  // hide usual submit button
-  document.getElementById("usual_submit").style.display = "none";
-  
-      e.preventDefault();
-  $.ajax({
-          type:'POST',
-          data: $('form').serialize(),
-          dataType: "json",
-          url: "{{url_for('post_data')}}",
-        
-          success: (data) => {
-  
-  
-  
-  // when post success make table appear
-  
-  document.getElementById("category").style.display = "block";
-  
-  $('#sugg-category').text(data.category);
-  
-  if (data.feedback == "success") {
-    alert('Job added Successfully');
-    window.location = '/manager';
-  }
-  
-  
-    },
-  
-          error: function() {
-            alert('error happend');
-  
-                  }
+
+    // Hide category section initially
+    document.getElementById("category").style.display = "none";
+
+    $(document).on('submit', '#post_form', function(e) {
+
+      $('#yes_button, #no_button').click(function() {
+        let clickedButton = $(this).attr('id');
+        if (clickedButton == "yes_button") {
+          $("#suggested_true").prop("checked", true);
+        } else if (clickedButton == "no_button") {
+          $("#suggested_false").prop("checked", true);
+        }
       });
+
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        data: $('form').serialize(),
+        dataType: "json",
+        url: "{{url_for('post_data')}}",
+        success: (data) => {
+
+          // When post success make table appear
+          document.getElementById("category").style.display = "block";
+          $('#sugg-category').text(data.category);
+
+          if (data.feedback == "success") {
+            $('#successModal').modal('show'); 
+            window.location = '/addJob';
+          }
+
+        },
+        error: function() {
+          alert('error happened');
+        }
+      });
+    });
+
+    // Show the usual submit button after modal is closed
+    $('#exampleModal').on('hidden.bs.modal', function() {
+      document.getElementById("usual_submit").style.display = "block";
+    });
   });
-  });
-  </script>
+</script>
+
   
 </body>
 </html>

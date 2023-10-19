@@ -55,7 +55,7 @@ def preprocess_text(text, method='lemmatize'):
     return tokens
 
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_folder='styles', static_url_path='/styles')
 
 # Adding configuration for using a sqlite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -111,6 +111,12 @@ def home():
 @app.route("/manager")
 def manager():
     return render_template('manager.html')
+
+@app.route("/templates/<int:job_id>")
+def job_details(job_id):
+    ad = advertisment.query.get_or_404(job_id)  # Get job by ID or return a 404 error if not found
+    return render_template('job_details.html', ad=ad)
+
 
 @app.route("/post_data", methods=['GET', 'POST'])
 def post_data():

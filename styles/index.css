@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1E1E1E;
+    color: #E1E1E1;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #2E2E2E;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-light .navbar-brand,
+.navbar-light .navbar-nav .nav-link {
+    color: #E1E1E1;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #B0B0B0;
+}
+
+.card {
+    background-color: #2E2E2E;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.modal-content {
+    background-color: #2E2E2E;
+    color: #E1E1E1;
+}
+
+.modal-header .close span {
+    color: #E1E1E1;
+}
+
+button.btn {
+    background-color: #317F7D;
+    color: #E1E1E1;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+button.btn:hover {
+    background-color: #419A9C;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    color: #668DAA;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #507B99;  /* Slightly darker shade for hover state */
+}
+
+.container {
+    max-width: 1200px;
+    padding: 20px;
+}
+
+/* Grid system for job listings */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px;  /* Negative margin for proper alignment */
+}
+
+.col {
+    flex: 1;
+    padding: 15px;
+}
+
+.container.bg-dark, 
+.container.bg-dark label, 
+.container.bg-dark h1, 
+.container.bg-dark h5 {
+    color: #E1E1E1; /* Soft white text color */
+}
