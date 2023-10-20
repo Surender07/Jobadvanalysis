@@ -112,6 +112,16 @@ def home():
 def manager():
     return render_template('manager.html')
 
+@app.route('/job/<int:job_id>')
+def job_details(job_id):
+    # Fetch job details from your database based on job_id
+    job = advertisment.query.get(job_id)
+    if job:
+        return render_template('job_details.html', ad=job)
+    else:
+        return "Job not found", 404
+
+
 @app.route("/post_data", methods=['GET', 'POST'])
 def post_data():
     if request.method == "POST":
