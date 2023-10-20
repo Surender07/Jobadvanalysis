@@ -103,8 +103,8 @@ class advertisment(db.Model):
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if request.method == "POST":
-        category = request.form.get('category')
-        ads = advertisment.query.filter(advertisment.job_category == category).all()
+        job_category = request.form.get('job_category')
+        ads = advertisment.query.filter(advertisment.job_category == job_category).all()
         return render_template('homepage.html', title="jobs", ads=ads)
     return render_template('homepage.html')
 
@@ -121,15 +121,15 @@ def job_details(job_id):
 @app.route("/post_data", methods=['GET', 'POST'])
 def post_data():
     if request.method == "POST":
-        job_title_post = request.form.get('job_title', '')
-        job_desc = request.form.get('job_desc', '')
-        radio_post = request.form.get('suggested_choice', '')
-        salary_post = request.form.get('salary', '')
+        title = request.form.get('title', '')
+        desc = request.form.get('desc', '')
+        radio_choice_cat = request.form.get('suggested_choice', '')
+        salary = request.form.get('salary', '')
         
         # Load logistic regression pre-trained model
         descFT = FastText.load("models/desc_FT.model")
         descFT_wv= descFT.wv
-        tokenized_data = preprocess_text(job_desc)
+        tokenized_data = preprocess_text(desc)
         bbcFT_dvs = docvecs(descFT_wv, [tokenized_data])
 
         # Load the LR model
@@ -144,24 +144,24 @@ def post_data():
         print(y_pred)
 
         # Convert sentence to list to be used by the model
-        job_desc = [job_desc]
+        desc = [desc]
     
         
-        if radio_post == "true":
-            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=(y_pred))
+        if radio_choice_cat == "true":
+            ad_object = advertisment(title=title, description=desc[0], salary=salary, job_category=(y_pred))
             db.session.add(ad_object)
             db.session.commit()
             feedback = "success"
             return jsonify(feedback=feedback)
-        elif radio_post == "false":
+        elif radio_choice_cat == "false":
             custom_category = request.form.get('custom_category', '')
-            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=custom_category)
+            ad_object = advertisment(title=title, description=desc[0], salary=salary, job_category=custom_category)
             db.session.add(ad_object)
             db.session.commit()
             feedback = "success"
             return jsonify(feedback=feedback)
         else:
-            return jsonify(category=y_pred)
+            return jsonify(job_category=y_pred)
 
 if __name__ == "__main__":
     app.run(debug=True)

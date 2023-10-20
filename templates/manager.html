@@ -23,21 +23,16 @@
 </head>
 <body style="background-color: #1E1E1E;">
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">JobNest</a>
+    <a class="navbar-brand" href="{{url_for('home')}}">JobNest</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('manager')}}">Add a Job <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex; justify-content: flex-end;">
       <form class="form-inline my-2 my-lg-0">
-          <a href="{{url_for('home')}}"><button class="btn btn-outline-light my-2 my-sm-0" type="button">Switch Seeker</button></a>      
+          <a href="{{url_for('home')}}"><button class="btn btn-outline-light my-2 my-sm-0" type="button">Switch Seeker</button></a>
       </form>
-    </div>
+  </div>  
   </nav>
 
 
@@ -51,11 +46,11 @@
         </div>  
     <div class="form-group ">
       <label for="exampleInputEmail1">Job Title</label>
-      <input required name="job_title" type="input" class="form-control"  placeholder="Title">
+      <input required name="title" type="input" class="form-control"  placeholder="Title">
     </div>
     <div class="form-group">
         <label for="exampleFormControlTextarea1">Job description</label>
-        <textarea required name="job_desc" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+        <textarea required name="desc" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
     </div>
     <div class="form-group ">
       <label for="exampleInputEmail1">Salary</label>
@@ -75,7 +70,7 @@
         </button>
       </div>
       <div class="modal-body text-light">
-        <div id="category">
+        <div id="job_category">
           <div class="row">
             <div class="col-12">
                    <input id="suggested_true" type="radio" name="suggested_choice" value="true" hidden>
@@ -158,7 +153,7 @@
   $(document).ready(function() {
   
   // hide category section and make it appears when post
-  document.getElementById("category").style.display = "none";
+  document.getElementById("job_category").style.display = "none";
   
   
   $(document).on('submit','#post_form',function (e) {
@@ -192,9 +187,9 @@
   
   // when post success make table appear
   
-  document.getElementById("category").style.display = "block";
+  document.getElementById("job_category").style.display = "block";
   
-  $('#sugg-category').text(data.category);
+  $('#sugg-category').text(data.job_category);
   
   if (data.feedback == "success") {
     alert('Job added Successfully');
