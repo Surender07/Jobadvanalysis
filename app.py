@@ -83,7 +83,7 @@ def modify_preds(y_pred):
     return pred
 
 # Define database model for job advertisements
-class advertisment(db.Model):
+class jobs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), unique=False, nullable=True)
     description = db.Column(db.String(1000), unique=False, nullable=False)
@@ -96,7 +96,7 @@ class advertisment(db.Model):
 def home():
     if request.method == "POST":
         category = request.form.get('category')
-        ads = advertisment.query.filter(advertisment.job_category == category).all()
+        ads = jobs.query.filter(jobs.job_category == category).all()
         return render_template('index.html', title="jobs", ads=ads)
     return render_template('index.html')
 
@@ -107,7 +107,7 @@ def addJob():
 @app.route('/job/<int:job_id>')
 def job_details(job_id):
     # Fetch job details from the database based on job_id
-    job = advertisment.query.get(job_id)
+    job = jobs.query.get(job_id)
     if job:
         return render_template('job_details.html', ad=job)
     else:
@@ -141,14 +141,14 @@ def post_data():
     
         # Handle different scenarios based on user's choice
         if radio_post == "true":
-            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=(y_pred))
+            ad_object = jobs(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=(y_pred))
             db.session.add(ad_object)
             db.session.commit()
             feedback = "success"
             return jsonify(feedback=feedback)
         elif radio_post == "false":
             custom_category = request.form.get('custom_category', '')
-            ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=custom_category)
+            ad_object = jobs(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=custom_category)
             db.session.add(ad_object)
             db.session.commit()
             feedback = "success"
