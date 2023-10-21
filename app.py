@@ -1,9 +1,7 @@
-from unicodedata import category
+# Import necessary libraries and modules
 from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sklearn.linear_model import LogisticRegression
-from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 import datetime
 import numpy as np
@@ -16,11 +14,9 @@ from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
 import string
 
-
+# Define a function to preprocess text for NLP tasks
 def preprocess_text(text, method='lemmatize'):
-    """
-    Perform basic NLP preprocessing on a given text.
-    
+    """    
     Args:
     - text (str): Input text string to be preprocessed.
     - method (str): Either 'lemmatize' or 'stem'. Default is 'lemmatize'.
@@ -28,7 +24,6 @@ def preprocess_text(text, method='lemmatize'):
     Returns:
     - list: List of preprocessed tokens.
     """
-    
     # Convert to lowercase
     text = text.lower()
     
@@ -54,20 +49,18 @@ def preprocess_text(text, method='lemmatize'):
     
     return tokens
 
-
+# Initialize Flask application
 app = Flask(__name__, static_folder='styles', static_url_path='/styles')
 
-# Adding configuration for using a sqlite database
+# Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jobs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Creating an SQLAlchemy instance
+# Create SQLAlchemy and Migrate instances
 db = SQLAlchemy(app)
-
-# Settings for migrations
 migrate = Migrate(app, db)
 
-
+# Helper functions for embeddings and predictions
 def docvecs(embeddings, docs):
     vecs = np.zeros((len(docs), embeddings.vector_size))
     for i, doc in enumerate(docs):
@@ -89,9 +82,7 @@ def modify_preds(y_pred):
         pred = "Engineering"
     return pred
 
-
-
-# Models
+# Define database model for job advertisements
 class advertisment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), unique=False, nullable=True)
@@ -100,6 +91,7 @@ class advertisment(db.Model):
     job_category = db.Column(db.String(20), unique=False, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+# Define routes for the Flask app
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if request.method == "POST":
@@ -108,19 +100,18 @@ def home():
         return render_template('index.html', title="jobs", ads=ads)
     return render_template('index.html')
 
-@app.route("/manager")
-def manager():
-    return render_template('manager.html')
+@app.route("/addJob")
+def addJob():
+    return render_template('addJob.html')
 
 @app.route('/job/<int:job_id>')
 def job_details(job_id):
-    # Fetch job details from your database based on job_id
+    # Fetch job details from the database based on job_id
     job = advertisment.query.get(job_id)
     if job:
         return render_template('job_details.html', ad=job)
     else:
         return "Job not found", 404
-
 
 @app.route("/post_data", methods=['GET', 'POST'])
 def post_data():
@@ -130,13 +121,13 @@ def post_data():
         radio_post = request.form.get('suggested_choice', '')
         salary_post = request.form.get('salary', '')
         
-        # Load logistic regression pre-trained model
+        # Load models and predict job category
         descFT = FastText.load("models/desc_FT.model")
         descFT_wv= descFT.wv
         tokenized_data = preprocess_text(job_desc)
         bbcFT_dvs = docvecs(descFT_wv, [tokenized_data])
 
-        # Load the LR model
+        # Load the logistic regression model
         pkl_filename = "models/descFT_LR.pkl"
         with open(pkl_filename, 'rb') as file:
             model = pickle.load(file)
@@ -145,12 +136,10 @@ def post_data():
         y_pred = model.predict(bbcFT_dvs)
         y_pred = y_pred[0]
 
-        print(y_pred)
-
         # Convert sentence to list to be used by the model
         job_desc = [job_desc]
     
-        
+        # Handle different scenarios based on user's choice
         if radio_post == "true":
             ad_object = advertisment(title=job_title_post, description=job_desc[0], salary=salary_post, job_category=(y_pred))
             db.session.add(ad_object)
@@ -167,5 +156,6 @@ def post_data():
         else:
             return jsonify(category=y_pred)
 
+# Run the Flask application
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
