@@ -58,7 +58,7 @@ def preprocess_text(text, method='lemmatize'):
 app = Flask(__name__, static_folder='styles', static_url_path='/styles')
 
 # Adding configuration for using a sqlite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jobs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Creating an SQLAlchemy instance
