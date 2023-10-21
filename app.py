@@ -105,8 +105,8 @@ def home():
     if request.method == "POST":
         category = request.form.get('category')
         ads = advertisment.query.filter(advertisment.job_category == category).all()
-        return render_template('homepage.html', title="jobs", ads=ads)
-    return render_template('homepage.html')
+        return render_template('index.html', title="jobs", ads=ads)
+    return render_template('index.html')
 
 @app.route("/manager")
 def manager():
