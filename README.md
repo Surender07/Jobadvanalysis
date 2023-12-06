@@ -36,13 +36,13 @@ This repository hosts a job-seeking website, leveraging advanced machine learnin
 
 ## Demo:
 To see the entire functionality of the website, please do watch the followin video:
-`[https://youtu.be/jNXQ6nUCFi8](https://youtu.be/jNXQ6nUCFi8)`  
+[https://youtu.be/jNXQ6nUCFi8](https://youtu.be/jNXQ6nUCFi8)
 
 
 ## Usage
 1. Run the web application:
    ```python app.py```
-2. Access the application at `[http://localhost:http://localhost:5000](http://localhost:5000)`.
+2. Access the application at [http://localhost:http://localhost:5000](http://localhost:5000).
 
 ## Contributing
 Contributions, especially in the areas of NLP and machine learning, are welcome. Please follow the standard fork-and-pull request workflow.
