@@ -30,7 +30,7 @@ This repository hosts a job-seeking website, leveraging advanced machine learnin
 
 ## Installation
 1. Clone the repository:
-   ```git clone [repository-url]```
+   ```git clone https://github.com/ayushpatel2002/Flask-JobSeeker-with-NLP.git```
 2. Install required dependencies:
    ```pip install -r requirements.txt```
 
